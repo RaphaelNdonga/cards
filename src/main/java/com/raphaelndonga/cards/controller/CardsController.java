@@ -1,13 +1,16 @@
 package com.raphaelndonga.cards.controller;
 
 import com.raphaelndonga.cards.constants.CardsConstants;
+import com.raphaelndonga.cards.dto.CardsContactInfoDto;
 import com.raphaelndonga.cards.dto.CardsDto;
 import com.raphaelndonga.cards.dto.ResponseDto;
 import com.raphaelndonga.cards.entity.Cards;
 import com.raphaelndonga.cards.service.ICardsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,9 +19,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @Validated
-@AllArgsConstructor
 public class CardsController {
-    private ICardsService iCardsService;
+    private final ICardsService iCardsService;
+    private final CardsContactInfoDto cardsContactInfoDto;
+    private final Environment environment;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    public CardsController(ICardsService iCardsService, CardsContactInfoDto cardsContactInfoDto, Environment environment){
+        this.iCardsService = iCardsService;
+        this.cardsContactInfoDto = cardsContactInfoDto;
+        this.environment = environment;
+    }
 
     @GetMapping("/fetch")
     public ResponseEntity<CardsDto> fetchCardByMobileNumber(@RequestParam
@@ -77,5 +91,20 @@ public class CardsController {
                     )
             );
         }
+    }
+
+    @GetMapping("/env-info")
+    public ResponseEntity<String> getEnvInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("MAVEN_HOME"));
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<CardsContactInfoDto> getContactInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(cardsContactInfoDto);
+    }
+
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo(){
+        return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
     }
 }

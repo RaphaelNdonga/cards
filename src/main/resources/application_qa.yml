@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "3.2"
+
+cards:
+  message: "Welcome to EazyBank cards related qa APIs "
+  contactDetails:
+    name: "Qragos QA - QA Developer"
+    email: "dragos-qa@eazybank.com"
+  onCallSupport:
+    - (412) 419-1111
+    - (915) 382-2222
+

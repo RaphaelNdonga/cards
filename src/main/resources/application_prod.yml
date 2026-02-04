@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "3.1"
+
+cards:
+  message: "Welcome to EazyBank cards related prod APIs "
+  contactDetails:
+    name: "Dragos Production - Production Developer"
+    email: "dragos-prod@eazybank.com"
+  onCallSupport:
+    - (412) 419-3444
+    - (915) 382-1444
+
